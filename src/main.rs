@@ -21,6 +21,11 @@ struct SIMDExample<'sin> {
 }
 
 fn main() {
+    rayon::ThreadPoolBuilder::new()
+        .num_threads(512)
+        .build_global()
+        .unwrap();
+
     // generate data
     let mut fake_data_file = Arc::new(Mutex::new(
         fs::OpenOptions::new()
@@ -62,7 +67,7 @@ fn main() {
     fake_data_file.lock().unwrap().write_all(b"]}");
     println!("{}", "wrote ]}");
 
-    let contents = fs::read_to_string("/home/aj/deploy/rust/zcapjson/data/twitter.json");
+    let contents = fs::read_to_string("/home/aj/deploy/rust/zcapjson/data/fake_data.json");
     let contents = &mut contents.unwrap()[..]; // get that intro str on stack
 
     let x: serde_json::Value = simd_json::serde::from_str(contents).unwrap();
