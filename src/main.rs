@@ -2,7 +2,6 @@
 extern crate serde_derive;
 extern crate serde_json;
 
-use simd_json;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
@@ -21,12 +20,10 @@ fn main() {
     for line in reader.lines() {
         //println!("{}", line.unwrap());
         let row: &mut str = &mut line.unwrap();
-        let row: SIMDExample = simd_json::serde::from_str(row).unwrap();
-        if row.id == 2807149942735425369 {
-            println!("look ma! a match! - {}", row.id_str);
-            break;
-        } else {
-            println!("No match yet");
+        let row: SIMDExample = serde_json::from_str(row).unwrap();
+        match row.id {
+            2807149942735425369 => println!("look ma! a match! - {}", row.id_str),
+            _ => println!("No match yet"),
         }
     }
 }
