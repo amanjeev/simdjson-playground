@@ -22,11 +22,9 @@ fn main() {
         //println!("{}", line.unwrap());
         let row: &mut str = &mut line.unwrap();
         let row: SIMDExample = simd_json::serde::from_str(row).unwrap();
-        if row.id == 2807149942735425369 {
-            println!("look ma! a match! - {}", row.id_str);
-            break;
-        } else {
-            println!("No match yet");
+        match row.id {
+            2807149942735425369 => println!("look ma! a match! - {}", row.id_str),
+            _ => println!("No match yet"),
         }
     }
 }
