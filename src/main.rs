@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
 
 use simd_json;
+use simd_json_derive;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
