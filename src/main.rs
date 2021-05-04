@@ -18,7 +18,6 @@ fn main() {
     let reader = BufReader::new(data_file);
 
     for line in reader.lines() {
-        //println!("{}", line.unwrap());
         let row: &mut str = &mut line.unwrap();
         let row: SIMDExample = serde_json::from_str(row).unwrap();
         match row.id {
