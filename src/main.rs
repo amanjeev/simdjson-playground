@@ -1,11 +1,15 @@
-use simd_json_derive::{Serialize, Deserialize};
+use serde;
+use serde_json;
+use simd_json_derive::Deserialize;
+use simd_json_derive::Serialize;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-#[derive(Debug, Serialize, simd_json_derive::Deserialize)]
+#[derive(Deserialize, Serialize)]
 struct SIMDExample<'sin> {
     id: u64,
+    #[serde(borrow)]
     id_str: &'sin str,
 }
 
@@ -14,9 +18,8 @@ fn main() {
     let reader = BufReader::new(data_file);
 
     for line in reader.lines() {
-        //println!("{}", line.unwrap());
-        let row: &mut str = &mut line.unwrap();
-        let row: SIMDExample = SIMDExample::from_str(row).unwrap();
+        let mut row = line.unwrap();
+        let row: SIMDExample = SIMDExample::from_str(row.as_mut_str()).unwrap();
 
         match row.id {
             2807149942735425369 => println!("look ma! a match! - {}", row.id_str),
