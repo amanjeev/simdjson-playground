@@ -1,12 +1,10 @@
-use serde;
-use serde_json;
 use simd_json_derive::Deserialize;
 use simd_json_derive::Serialize;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
-#[derive(Deserialize, Serialize)]
+#[derive(simd_json_derive::Deserialize, simd_json_derive::Serialize)]
 struct SIMDExample<'sin> {
     id: u64,
     #[serde(borrow)]
