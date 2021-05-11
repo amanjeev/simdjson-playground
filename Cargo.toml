@@ -7,4 +7,3 @@ edition = "2018"
 [dependencies]
 simd-json-derive = "0.2.2"
 simd-json = { version = "0.4", features = ["known-key", "serde_impl"] }
-simd-json-derive-int = "0.2.0"
