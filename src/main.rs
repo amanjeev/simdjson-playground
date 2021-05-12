@@ -15,14 +15,15 @@ struct SIMDExample<'sin> {
 
 fn main() {
     let data_file = File::open("/home/aj/deploy/rust/zcapjson/data/fake_data.json").unwrap();
-    let reader = BufReader::new(data_file);
+    let mut reader = BufReader::new(data_file);
 
-    for line in reader.lines() {
-        let row: &mut str = &mut line.unwrap();
-        let row: SIMDExample = serde_json::from_str(row).unwrap();
-        match row.id {
-            2807149942735425369 => println!("look ma! a match! - {}", row.id_str),
-            _ => println!("No match yet"),
+    let mut data = Vec::with_capacity(1024);
+
+    while reader.read_until(b'\n', &mut data).unwrap() > 0 {
+        let row: SIMDExample = serde_json::from_slice(data.as_mut_slice()).unwrap();
+        if row.id == 2807149942735425369 {
+            println!("look ma! a match! - {}", row.id_str);
         }
+        data.clear();
     }
 }
